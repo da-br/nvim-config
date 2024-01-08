@@ -11,3 +11,8 @@ map("n", "<leader>yy", "+yy", { remap = false })
 -- Paste from clipboard
 map({ "n", "v" }, "<leader>p", "+p", { remap = false })
 map({ "n", "v" }, "<leader>P", "+P", { remap = false })
+
+-- dap
+map("n", "<leader>D", function()
+  require("dap").step_over()
+end, { remap = false })
