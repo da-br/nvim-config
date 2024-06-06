@@ -1,9 +1,8 @@
 return {
-        {
-        "nvim-lua/plenary.nvim",
-        name = "plenary"
-    },
+	{
+		"nvim-lua/plenary.nvim",
+		name = "plenary",
+	},
 
-
-"gpanders/editorconfig.nvim",
+	"gpanders/editorconfig.nvim",
 }
