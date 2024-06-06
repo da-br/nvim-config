@@ -1,7 +1,7 @@
 return {
 	"folke/trouble.nvim",
 	config = function()
-		require("trouble").setup(),
+		require("trouble").setup()
 		vim.keymap.set(
 			"n",
 			"<leader>tt",
