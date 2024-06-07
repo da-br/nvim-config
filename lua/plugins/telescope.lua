@@ -5,7 +5,19 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
-			require("telescope").setup({})
+			require("telescope").setup({
+
+				defaults = {
+					mappings = {
+						i = {
+							["<esc><esc>"] = require("telescope.actions").close,
+						},
+						n = {
+							["<esc><esc>"] = require("telescope.actions").close,
+						},
+					},
+				},
+			})
 
 			require("telescope").load_extension("ui-select")
 
