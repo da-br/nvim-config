@@ -7,6 +7,8 @@ return {
 		config = function()
 			require("telescope").setup({})
 
+			require("telescope").load_extension("ui-select")
+
 			local builtin = require("telescope.builtin")
 
 			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find file" })
@@ -16,5 +18,8 @@ return {
 			vim.keymap.set({ "n", "v" }, "<leader>fw", builtin.grep_string, { desc = "Grep under curser" })
 			vim.keymap.set("n", "<leader>/", builtin.current_buffer_fuzzy_find, { desc = "Find in current file" })
 		end,
+	},
+	{
+		"nvim-telescope/telescope-ui-select.nvim",
 	},
 }
