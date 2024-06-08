@@ -1,7 +1,12 @@
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		"williamboman/mason.nvim",
+		{
+			"williamboman/mason.nvim",
+			opts = {
+				ensure_installed = { "goimports", "gofumpt" },
+			},
+		},
 		"williamboman/mason-lspconfig.nvim",
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
@@ -13,6 +18,8 @@ return {
 		"j-hui/fidget.nvim",
 		"stevearc/conform.nvim",
 	},
+
+	opts = {},
 
 	config = function()
 		local cmp = require("cmp")
@@ -44,6 +51,15 @@ return {
 					lspconfig.lua_ls.setup({
 						capabilities = capabilities,
 					})
+				end,
+
+				["gopls"] = function()
+					vim.keymap.set(
+						"n",
+						"<leader>td",
+						"<cmd>lua require('dap-go').debug_test()<CR>",
+						{ desc = "Debug Nearest (Go)" }
+					)
 				end,
 			},
 		})

@@ -5,7 +5,7 @@ return {
 			"leoluz/nvim-dap-go",
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
-			"williamboman/mason.nvim",
+			{ "williamboman/mason.nvim", opts = { ensure_installed = { "delve" } } },
 			"theHamsta/nvim-dap-virtual-text",
 		},
 		config = function()
@@ -13,7 +13,15 @@ return {
 			local ui = require("dapui")
 
 			require("dapui").setup()
-			require("dap-go").setup()
+			require("dap-go").setup({
+				dap_configurations = {
+					type = "go",
+					request = "launch",
+					name = "main.go",
+					program = "${workspaceFolder}/main.go",
+				},
+			})
+
 			require("nvim-dap-virtual-text").setup()
 
 			-- Eval var under cursor
@@ -21,6 +29,11 @@ return {
 				require("dapui").eval(nil, { enter = true })
 			end)
 
+			vim.keymap.set("n", "<leader>td", function()
+				require("neotest").run.run({ strategy = "dap" })
+			end, { desc = "Debug Nearest" })
+
+			vim.keymap.set({ "n", "i" }, "<leader>du", ui.toggle)
 			vim.keymap.set("n", "<F4>", dap.step_back)
 			vim.keymap.set("n", "<F5>", dap.continue)
 			vim.keymap.set("n", "<C-S-F5>", dap.restart)
