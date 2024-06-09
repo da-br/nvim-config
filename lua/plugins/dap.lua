@@ -22,6 +22,8 @@ return {
 			local dap = require("dap")
 			local ui = require("dapui")
 
+			-- dap.defaults.fallback.force_external_terminal = true
+
 			require("dapui").setup()
 			require("dap-go").setup({
 				dap_configurations = {
@@ -46,7 +48,7 @@ return {
 				require("neotest").run.run({ strategy = "dap" })
 			end, { desc = "Debug Nearest" })
 
-			vim.keymap.set({ "n", "i" }, "<leader>du", ui.toggle)
+			vim.keymap.set("n", "<leader>du", ui.toggle)
 			vim.keymap.set("n", "<F4>", dap.step_back)
 			vim.keymap.set("n", "<F5>", dap.continue)
 			vim.keymap.set("n", "<C-S-F5>", dap.restart)
