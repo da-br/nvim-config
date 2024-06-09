@@ -19,8 +19,6 @@ return {
 		"stevearc/conform.nvim",
 	},
 
-	opts = {},
-
 	config = function()
 		local cmp = require("cmp")
 		local cmp_lsp = require("cmp_nvim_lsp")
@@ -51,15 +49,6 @@ return {
 					lspconfig.lua_ls.setup({
 						capabilities = capabilities,
 					})
-				end,
-
-				["gopls"] = function()
-					vim.keymap.set(
-						"n",
-						"<leader>td",
-						"<cmd>lua require('dap-go').debug_test()<CR>",
-						{ desc = "Debug Nearest (Go)" }
-					)
 				end,
 			},
 		})
@@ -98,16 +87,60 @@ return {
 			},
 		})
 
-		local builtin = require("telescope.builtin")
+		local servers = {
+			bashls = true,
+			gopls = {
+				settings = {
+					gopls = {
+						hints = {
+							assignVariableTypes = true,
+							compositeLiteralFields = true,
+							compositeLiteralTypes = true,
+							constantValues = true,
+							functionTypeParameters = true,
+							parameterNames = true,
+							rangeVariableTypes = true,
+						},
+					},
+				},
+			},
+		}
 
-		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-		vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
-		vim.keymap.set("n", "gu", builtin.lsp_references, { buffer = 0 })
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
-		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { buffer = 0 })
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+		vim.api.nvim_create_autocmd("LspAttach", {
 
-		vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-		vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+			callback = function(args)
+				local bufnr = args.buf
+				local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
+
+				local settings = servers[client.name]
+				if type(settings) ~= "table" then
+					settings = {}
+				end
+
+				local builtin = require("telescope.builtin")
+
+				vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
+				vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
+				vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
+				vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+
+				vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
+				vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+
+				-- Override server capabilities
+				if settings.server_capabilities then
+					for k, v in pairs(settings.server_capabilities) do
+						if v == vim.NIL then
+							---@diagnostic disable-next-line: cast-local-type
+							v = nil
+						end
+
+						client.server_capabilities[k] = v
+					end
+				end
+			end,
+		})
 	end,
 }

@@ -36,6 +36,9 @@ map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 map("n", "<leader>bd", "<cmd>:bd<cr>", { desc = "Delete Buffer and Window" })
 
+map("n", "gp", "<C-o>", { noremap = true, silent = true })
+map("n", "gn", "<C-i>", { noremap = true, silent = true })
+
 -- better indenting
 map("v", "<", "<gv")
 map("v", ">", ">gv")
