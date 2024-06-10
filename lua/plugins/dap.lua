@@ -40,7 +40,7 @@ return {
 			require("nvim-dap-virtual-text").setup()
 
 			-- Eval var under cursor
-			vim.keymap.set("n", "<space>?", function()
+			vim.keymap.set("n", "<space>=", function()
 				require("dapui").eval(nil, { enter = true })
 			end)
 
