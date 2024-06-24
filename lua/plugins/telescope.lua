@@ -19,6 +19,11 @@ return {
 				},
 			})
 
+			-- ADD INIT.LUA SETTINGS THAT ARE _NECESSARY_ FOR REPRODUCING THE ISSUE
+			vim.keymap.set("n", "<leader>s", function()
+				require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
+			end)
+
 			require("telescope").load_extension("ui-select")
 
 			local builtin = require("telescope.builtin")
