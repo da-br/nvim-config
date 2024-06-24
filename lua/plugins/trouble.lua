@@ -5,7 +5,7 @@ return {
 		vim.keymap.set(
 			"n",
 			"<leader>xt",
-			":Trouble diagnostics toggle focus=true<cr>",
+			":Trouble diagnostics toggle win.position=right focus=true<cr>",
 			{ desc = "Diagnostics (Trouble)" }
 		)
 
@@ -14,13 +14,6 @@ return {
 			"<leader>xb",
 			":Trouble diagnostics toggle filter.buf=0<cr>",
 			{ desc = "Buffer Diagnostics (Trouble)" }
-		)
-
-		vim.keymap.set(
-			"n",
-			"<leader>xl",
-			":Trouble lsp toggle focus=false win.position=right<cr>",
-			{ desc = "LSP Definitions / references / ... (Trouble)" }
 		)
 
 		vim.keymap.set("n", "<leader>xL", ":Trouble loclist toggle<cr>", { desc = "Location List (Trouble)" })
